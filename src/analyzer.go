@@ -1,20 +1,23 @@
 package main
 
 import (
+	"errors"
+	"fmt"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
-	"log"
+	"./ethernet"
 )
 
 // Analyzes the given packet source
 func analyzePCAP(source *gopacket.PacketSource, linkType layers.LinkType) error {
-	log.Printf("PCAP capture link type is %s (ID %d)", getNameOfLinkType(linkType), linkType)
-	// TODO: maybe, just maybe, we wanna print more here than just the link type :)
-	_, _ = source, linkType
-	return nil
-}
+	// Switch over link type to determine correct module to ask for analysis
+	switch linkType {
+	case layers.LinkTypeEthernet:
+		// Ethernet
+		return ethernet.Analyze(source)
+	}
 
-// Returns the name of the LinkType constant handed over
-func getNameOfLinkType(lt layers.LinkType) string {
-	return lt.String()
+	// if we reach this point, the given PCAP contains a link type we can't handle (yet).
+	errorMsg := fmt.Sprintf("Asked for link type %s (ID %d), but not supported by pancap. :( sorry!", linkType.String(), linkType)
+	return errors.New(errorMsg)
 }
