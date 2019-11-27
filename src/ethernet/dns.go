@@ -6,6 +6,7 @@ import (
 	"github.com/google/gopacket/layers"
 	publicsuffix2 "golang.org/x/net/publicsuffix"
 	"log"
+	"net"
 )
 
 var (
@@ -20,6 +21,16 @@ var (
 	answerBaseDomains []string
 	answerPrivateDomains []string
 	answerType = make(map[layers.DNSType]int)
+	answerPublicIPv4 []string
+	answerPrivateIPv4 []string
+
+	privateBlocks = []net.IPNet{
+		{net.IPv4(10, 0, 0, 0), net.IPv4Mask(255, 0, 0, 0)}, 	  // 10.0.0.0/8
+		{net.IPv4(172, 16, 0, 0), net.IPv4Mask(255, 240, 0, 0)},  // 172.16.0.0/12
+		{net.IPv4(192, 168, 0, 0), net.IPv4Mask(255, 255, 0, 0)}, // 192.168.0.0/24
+		{net.IPv4(100, 64, 0, 0), net.IPv4Mask(255, 192, 0, 0)},  // 100.64.0.0/10
+		{net.IPv4(169, 254, 0, 0), net.IPv4Mask(255, 255, 0, 0)}, // 169.254.0.0/16
+	}
 )
 
 // Called on every DNS packet
@@ -107,6 +118,16 @@ func processDNSAnswer(answers []layers.DNSResourceRecord) {
 			// it's not managed by ICANN, so it's private - add it to the private list
 			answerPrivateDomains = appendIfUnique(name, answerPrivateDomains)
 		}
+
+		// Check if we got an A record answer
+		if answer.Type == layers.DNSTypeA {
+			// A record, check IP for being private
+			if ipIsPrivate(answer.IP) {
+				answerPrivateIPv4 = append(answerPrivateIPv4, answer.IP.String())
+			} else {
+				answerPublicIPv4 = append(answerPublicIPv4, answer.IP.String())
+			}
+		}
 	}
 }
 
@@ -127,6 +148,20 @@ func appendIfUnique(appendee string, array []string) []string {
 
 	// None found, append
 	return append(array, appendee)
+}
+
+// Checks if the given IP is in a private range or not
+func ipIsPrivate(ip net.IP) bool {
+	// check every private IP block for our IP
+	for _, block := range privateBlocks {
+		if block.Contains(ip) {
+			// found, is a private IP
+			return true
+		}
+	}
+
+	// Not in any of the private blocks, not private
+	return false
 }
 
 // Print a summary after all DNS packets were processed
@@ -172,6 +207,13 @@ func printDNSAnswerSummary() {
 	if len(answerPrivateDomains) > 0 {
 		log.Println("Answered with these private (non-ICANN managed) domains:")
 		printTree(answerPrivateDomains)
+	}
+
+	// Check for public and private IPs
+	log.Printf("Answered with %d public IP addresses and %d private IP addresses", len(answerPublicIPv4), len(answerPrivateIPv4))
+	if len(answerPrivateIPv4) > 0 {
+		log.Println("Private IP addresses in answer:")
+		printTree(answerPrivateIPv4)
 	}
 }
 
