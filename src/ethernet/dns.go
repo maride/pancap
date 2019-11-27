@@ -2,6 +2,7 @@ package ethernet
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	publicsuffix2 "golang.org/x/net/publicsuffix"
@@ -166,7 +167,10 @@ func ipIsPrivate(ip net.IP) bool {
 
 // Print a summary after all DNS packets were processed
 func printDNSSummary() {
+	headline := color.New(color.FgRed, color.Bold)
+	headline.Println("DNS Request Summary")
 	printDNSQuestionSummary()
+	headline.Println("DNS Response Summary")
 	printDNSAnswerSummary()
 }
 
