@@ -24,7 +24,7 @@ func main() {
 	// Start analyzing
 	analyzeErr := analyzePCAP(packetSource, linkType)
 	if analyzeErr != nil {
-		// Mh, encountered some problems while analyzingfil
+		// Mh, encountered some problems while analyzing file
 		log.Fatalf("Error occurred while analyzing: %s", analyzeErr.Error())
 	}
 }
