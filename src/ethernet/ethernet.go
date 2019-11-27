@@ -4,6 +4,7 @@ import (
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"log"
+	"./dns"
 )
 
 func Analyze(source *gopacket.PacketSource) error {
@@ -25,7 +26,7 @@ func Analyze(source *gopacket.PacketSource) error {
 			switch packet.ApplicationLayer().LayerType() {
 			case layers.LayerTypeDNS:
 				// Handle DNS packet
-				processDNSPacket(packet)
+				dns.ProcessDNSPacket(packet)
 			}
 		}
 	}
@@ -38,5 +39,5 @@ func Analyze(source *gopacket.PacketSource) error {
 
 // Prints all the summaries.
 func printSummary() {
-	printDNSSummary()
+	dns.PrintDNSSummary()
 }
