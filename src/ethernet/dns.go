@@ -173,19 +173,19 @@ func printDNSSummary() {
 // Prints a summary of all DNS questions
 func printDNSQuestionSummary() {
 	// Overall question stats
-	log.Printf("%d DNS questions in total", numQuestions)
-	log.Printf("%s records", generateDNSTypeSummary(questionType))
-	log.Printf("%d unique domains of %d base domains, of which are %d private (non-ICANN) TLDs.", len(questionDomains), len(questionBaseDomains), len(questionPrivateDomains))
+	fmt.Printf("%d DNS questions in total\n", numQuestions)
+	fmt.Printf("%s records\n", generateDNSTypeSummary(questionType))
+	fmt.Printf("%d unique domains of %d base domains, of which are %d private (non-ICANN) TLDs.\n", len(questionDomains), len(questionBaseDomains), len(questionPrivateDomains))
 
 	// Output base domains asked for
 	if len(questionBaseDomains) > 0 {
-		log.Println("Asked for these base domains:")
+		fmt.Println("Asked for these base domains:")
 		printTree(questionBaseDomains)
 	}
 
 	// Output private domains
 	if len(questionPrivateDomains) > 0 {
-		log.Println("Asked for these private (non-ICANN managed) domains:")
+		fmt.Println("Asked for these private (non-ICANN managed) domains:")
 		printTree(questionPrivateDomains)
 	}
 }
@@ -193,26 +193,26 @@ func printDNSQuestionSummary() {
 // Prints a summary of all DNS answers
 func printDNSAnswerSummary() {
 	// Overall question stats
-	log.Printf("%d DNS answers in total", numAnswers)
-	log.Printf("%s records", generateDNSTypeSummary(answerType))
-	log.Printf("%d unique domains of %d base domains, of which are %d private (non-ICANN) TLDs.", len(answerDomains), len(answerBaseDomains), len(answerPrivateDomains))
+	fmt.Printf("%d DNS answers in total\n", numAnswers)
+	fmt.Printf("%s records\n", generateDNSTypeSummary(answerType))
+	fmt.Printf("%d unique domains of %d base domains, of which are %d private (non-ICANN) TLDs.\n", len(answerDomains), len(answerBaseDomains), len(answerPrivateDomains))
 
 	// Output base domains answered with
 	if len(answerBaseDomains) > 0 {
-		log.Println("Answered with these base domains:")
+		fmt.Println("Answered with these base domains:")
 		printTree(answerBaseDomains)
 	}
 
 	// Output private domains
 	if len(answerPrivateDomains) > 0 {
-		log.Println("Answered with these private (non-ICANN managed) domains:")
+		fmt.Println("Answered with these private (non-ICANN managed) domains:")
 		printTree(answerPrivateDomains)
 	}
 
 	// Check for public and private IPs
-	log.Printf("Answered with %d public IP addresses and %d private IP addresses", len(answerPublicIPv4), len(answerPrivateIPv4))
+	fmt.Printf("Answered with %d public IP addresses and %d private IP addresses\n", len(answerPublicIPv4), len(answerPrivateIPv4))
 	if len(answerPrivateIPv4) > 0 {
-		log.Println("Private IP addresses in answer:")
+		fmt.Println("Private IP addresses in answer:")
 		printTree(answerPrivateIPv4)
 	}
 }
@@ -223,9 +223,9 @@ func printTree(strarr []string) {
 	for iter, elem := range strarr {
 		// check if we got the last element
 		if iter < len(strarr) - 1 {
-			log.Printf("|- %s", elem)
+			fmt.Printf("|- %s\n", elem)
 		} else {
-			log.Printf("'- %s\n\n", elem)
+			fmt.Printf("'- %s\n\n", elem)
 		}
 	}
 }
