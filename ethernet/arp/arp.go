@@ -34,6 +34,9 @@ func ProcessARPPacket(packet gopacket.Packet) error {
 		// Request packet
 		participant.asked++
 		appendIfUnique(net.IP(arppacket.DstProtAddress).String(), participant.askedList)
+
+		// Add device entry
+		addDeviceEntry(sourceAddr, net.IP(arppacket.SourceProtAddress).String())
 	} else {
 		// Response packet
 		participant.answered++
