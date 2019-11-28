@@ -1,11 +1,11 @@
 package ethernet
 
 import (
+	"git.darknebu.la/maride/pancap/src/ethernet/arp"
+	"git.darknebu.la/maride/pancap/src/ethernet/dns"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"log"
-	"./arp"
-	"./dns"
 )
 
 func Analyze(source *gopacket.PacketSource) error {
