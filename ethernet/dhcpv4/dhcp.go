@@ -42,7 +42,7 @@ func HandleDHCPv4Packet(packet gopacket.Packet) error {
 	// Examine packet further
 	if dhcppacket.Operation == layers.DHCPOpRequest {
 		// Request packet
-		appendIfUnique(dhcppacket.ClientHWAddr.String(), requestMAC)
+		requestMAC = appendIfUnique(dhcppacket.ClientHWAddr.String(), requestMAC)
 	} else {
 		// Response/Offer packet
 		addResponseEntry(dhcppacket.ClientIP.String(), dhcppacket.YourClientIP.String(), dhcppacket.ClientHWAddr.String(), ethernetpacket.SrcMAC.String())

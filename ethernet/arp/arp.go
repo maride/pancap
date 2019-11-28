@@ -33,14 +33,14 @@ func ProcessARPPacket(packet gopacket.Packet) error {
 	if arppacket.Operation == layers.ARPRequest {
 		// Request packet
 		participant.asked++
-		appendIfUnique(net.IP(arppacket.DstProtAddress).String(), participant.askedList)
+		participant.askedList = appendIfUnique(net.IP(arppacket.DstProtAddress).String(), participant.askedList)
 
 		// Add device entry
 		addDeviceEntry(sourceAddr, net.IP(arppacket.SourceProtAddress).String())
 	} else {
 		// Response packet
 		participant.answered++
-		appendIfUnique(net.IP(arppacket.SourceProtAddress).String(), participant.answeredList)
+		participant.answeredList = appendIfUnique(net.IP(arppacket.SourceProtAddress).String(), participant.answeredList)
 
 		// Add device entry
 		addDeviceEntry(sourceAddr, net.IP(arppacket.SourceProtAddress).String())
