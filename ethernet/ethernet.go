@@ -3,6 +3,7 @@ package ethernet
 import (
 	"git.darknebu.la/maride/pancap/ethernet/arp"
 	"git.darknebu.la/maride/pancap/ethernet/dns"
+	"git.darknebu.la/maride/pancap/ethernet/dhcpv4"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"log"
@@ -30,6 +31,11 @@ func Analyze(source *gopacket.PacketSource) error {
 			// Handle ARP packet
 			arp.ProcessARPPacket(packet)
 		}
+
+		if packet.Layer(layers.LayerTypeDHCPv4) != nil {
+			// Handle DHCP (v4) packet
+			dhcpv4.HandleDHCPv4Packet(packet)
+		}
 	}
 
 	// After processing all packets, print summary
@@ -42,4 +48,5 @@ func Analyze(source *gopacket.PacketSource) error {
 func printSummary() {
 	arp.PrintARPSummary()
 	dns.PrintDNSSummary()
+	dhcpv4.PrintDHCPv4Summary()
 }
