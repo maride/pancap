@@ -4,5 +4,6 @@ type dhcpResponse struct {
 	destMACAddr string
 	newIPAddr string
 	serverMACAddr string
+	askedFor bool
 }
 

@@ -45,7 +45,7 @@ func HandleDHCPv4Packet(packet gopacket.Packet) error {
 		appendIfUnique(dhcppacket.ClientHWAddr.String(), requestMAC)
 	} else {
 		// Response/Offer packet
-		addResponseEntry(dhcppacket.ClientIP.String(), dhcppacket.ClientHWAddr.String(), ethernetpacket.SrcMAC.String())
+		addResponseEntry(dhcppacket.ClientIP.String(), dhcppacket.YourClientIP.String(), dhcppacket.ClientHWAddr.String(), ethernetpacket.SrcMAC.String())
 	}
 
 	return nil
@@ -72,7 +72,13 @@ func printResponseSummary() {
 
 	// Iterate over all responses
 	for _, r := range responses {
-		tmpaddr = append(tmpaddr, fmt.Sprintf("%s offered %s IP address %s", r.serverMACAddr, r.destMACAddr, r.newIPAddr))
+		addition := ""
+
+		if r.askedFor {
+			addition = " which the client explicitly asked for."
+		}
+
+		tmpaddr = append(tmpaddr, fmt.Sprintf("%s offered %s IP address %s%s", r.serverMACAddr, r.destMACAddr, r.newIPAddr, addition))
 	}
 
 	// Draw as tree
@@ -80,7 +86,15 @@ func printResponseSummary() {
 }
 
 // Adds a new response entry. If an IP address was already issued or a MAC asks multiple times for DNS, the case is examined further
-func addResponseEntry(newIP string, destMAC string, serverMAC string) {
+func addResponseEntry(newIP string, yourIP string, destMAC string, serverMAC string) {
+	// Check if client asked for a specific address (which was granted by the DHCP server)
+	askedFor := false
+	if newIP == "0.0.0.0" {
+		// Yes, client asked for a specific address. Most likely not the first time in this network.
+		newIP = yourIP
+		askedFor = true
+	}
+
 	for _, r := range responses {
 		// Check for interesting cases
 		if r.destMACAddr == destMAC {
@@ -112,5 +126,6 @@ func addResponseEntry(newIP string, destMAC string, serverMAC string) {
 		destMACAddr:   destMAC,
 		newIPAddr:     newIP,
 		serverMACAddr: serverMAC,
+		askedFor:      askedFor,
 	})
 }
