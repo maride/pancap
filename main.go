@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math/rand"
+	"time"
 )
 
 func main() {
@@ -29,12 +31,30 @@ func main() {
 	}
 }
 
-// Prints a simple figlet-style ASCII art
+// Prints a simple figlet-style ASCII art and a random quote
 func printMOTD() {
+	randomQuotes := []string{
+		"PanCAP: Analyzer for capture files",
+		"PanCAP: Analyzer for pancake files",
+		"You want some syrup with these packets?",
+		"Check out CONTRIBUTORS.md!",
+		"Push your commits to git.darknebu.la/maride/pancap",
+		"Don't let the white noise traffic confuse you.",
+		"Grab a Club Mate if you don't have one yet.",
+		"In Soviet Russia, traffic analyzes you.",
+		"Who captures the captors?",
+		"Respect other's privacy. Always.",
+		"Make public data available, protect private data.", // https://www.ccc.de/en/hackerethik
+	}
+
+	// Maybe switch to urand? Possibly a security issue... ;)
+	rand.Seed(time.Now().Unix())
+
 	fmt.Println(" _ __   __ _ _ __   ___ __ _ _ __")
 	fmt.Println("| '_ \\ / _` | '_ \\ / __/ _` | '_ \\")
 	fmt.Println("| |_) | (_| | | | | (_| (_| | |_) |")
 	fmt.Println("| .__/ \\__,_|_| |_|\\___\\__,_| .__/")
 	fmt.Println("|_|                         |_|")
-	fmt.Println("PanCAP: Analyzer for capture files\n")
+	fmt.Println(randomQuotes[rand.Intn(len(randomQuotes))])
+	fmt.Println("")
 }
