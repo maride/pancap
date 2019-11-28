@@ -2,8 +2,8 @@ package ethernet
 
 import (
 	"git.darknebu.la/maride/pancap/ethernet/arp"
-	"git.darknebu.la/maride/pancap/ethernet/dns"
 	"git.darknebu.la/maride/pancap/ethernet/dhcpv4"
+	"git.darknebu.la/maride/pancap/ethernet/dns"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"log"
