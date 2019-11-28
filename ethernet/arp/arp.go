@@ -105,6 +105,11 @@ func getStatOrCreate(macaddr string) *arpStats {
 
 // Adds a new entry to the devices array, checking if there may be a collision (=ARP Spoofing)
 func addDeviceEntry(macaddr string, ipaddr string) {
+	if ipaddr == "0.0.0.0" {
+		// Possible ARP request if sender doesn't have an IP address yet. Ignore.
+		return
+	}
+
 	for i := 0; i < len(devices); i++ {
 		// check if we found a collision (possible ARP spoofing)
 		if (devices[i].macaddr == macaddr) != (devices[i].ipaddr == ipaddr) {
