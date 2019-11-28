@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
-	"git.darknebu.la/maride/pancap/src/ethernet"
+	"git.darknebu.la/maride/pancap/ethernet"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 )
