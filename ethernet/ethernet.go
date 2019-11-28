@@ -24,17 +24,17 @@ func Analyze(source *gopacket.PacketSource) error {
 
 		if packet.Layer(layers.LayerTypeDNS) != nil {
 			// Handle DNS packet
-			dns.ProcessDNSPacket(packet)
+			handleErr(dns.ProcessDNSPacket(packet))
 		}
 
 		if packet.Layer(layers.LayerTypeARP) != nil {
 			// Handle ARP packet
-			arp.ProcessARPPacket(packet)
+			handleErr(arp.ProcessARPPacket(packet))
 		}
 
 		if packet.Layer(layers.LayerTypeDHCPv4) != nil {
 			// Handle DHCP (v4) packet
-			dhcpv4.HandleDHCPv4Packet(packet)
+			handleErr(dhcpv4.HandleDHCPv4Packet(packet))
 		}
 	}
 
@@ -49,4 +49,12 @@ func printSummary() {
 	arp.PrintARPSummary()
 	dns.PrintDNSSummary()
 	dhcpv4.PrintDHCPv4Summary()
+}
+
+// Handles an error, if err is not nil.
+func handleErr(err error) {
+	// (hopefully) most calls to this function will contain a nil error, so we need to check if we really got an error
+	if err != nil {
+		log.Printf("Encountered error while examining packets, continuing anyway. Error: %s", err.Error())
+	}
 }
