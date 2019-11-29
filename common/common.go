@@ -1,9 +1,9 @@
-package arp
+package common
 
 import "fmt"
 
 // Appends the appendee to the array if it does not contain appendee yet
-func appendIfUnique(appendee string, array []string) []string {
+func AppendIfUnique(appendee string, array []string) []string {
 	// Iterate over all elements and check values
 	for _, elem := range array {
 		if elem == appendee {
@@ -17,7 +17,7 @@ func appendIfUnique(appendee string, array []string) []string {
 }
 
 // Prints each element, along with a small ASCII tree
-func printTree(strarr []string) {
+func PrintTree(strarr []string) {
 	// iterate over each element
 	for iter, elem := range strarr {
 		// check if we got the last element

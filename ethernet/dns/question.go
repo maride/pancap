@@ -2,6 +2,7 @@ package dns
 
 import (
 	"fmt"
+	"git.darknebu.la/maride/pancap/common"
 	"github.com/google/gopacket/layers"
 	"golang.org/x/net/publicsuffix"
 	"log"
@@ -36,16 +37,16 @@ func processDNSQuestion(questions []layers.DNSQuestion) {
 		processType(questionType, question.Type)
 
 		// Append full domain and base domain
-		questionDomains = appendIfUnique(name, questionDomains)
+		questionDomains = common.AppendIfUnique(name, questionDomains)
 
 		// Check if we need to add the base name to the private list
 		_, icannManaged := publicsuffix.PublicSuffix(name)
 		if icannManaged {
 			// TLD is managed by ICANN, add to the base list
-			questionBaseDomains = appendIfUnique(basename, questionBaseDomains)
+			questionBaseDomains = common.AppendIfUnique(basename, questionBaseDomains)
 		} else {
 			// it's not managed by ICANN, so it's private - add it to the private list
-			questionPrivateDomains = appendIfUnique(name, questionPrivateDomains)
+			questionPrivateDomains = common.AppendIfUnique(name, questionPrivateDomains)
 		}
 	}
 }
@@ -60,12 +61,12 @@ func printDNSQuestionSummary() {
 	// Output base domains asked for
 	if len(questionBaseDomains) > 0 {
 		fmt.Println("Asked for these base domains:")
-		printTree(questionBaseDomains)
+		common.PrintTree(questionBaseDomains)
 	}
 
 	// Output private domains
 	if len(questionPrivateDomains) > 0 {
 		fmt.Println("Asked for these private (non-ICANN managed) domains:")
-		printTree(questionPrivateDomains)
+		common.PrintTree(questionPrivateDomains)
 	}
 }

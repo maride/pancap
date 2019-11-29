@@ -2,6 +2,7 @@ package dns
 
 import (
 	"fmt"
+	"git.darknebu.la/maride/pancap/common"
 	"github.com/google/gopacket/layers"
 	"golang.org/x/net/publicsuffix"
 	"log"
@@ -37,16 +38,16 @@ func processDNSAnswer(answers []layers.DNSResourceRecord) {
 		processType(answerType, answer.Type)
 
 		// Append full domain and base domain
-		answerDomains = appendIfUnique(name, answerDomains)
+		answerDomains = common.AppendIfUnique(name, answerDomains)
 
 		// Check if we need to add the base name to the private list
 		_, icannManaged := publicsuffix.PublicSuffix(name)
 		if icannManaged {
 			// TLD is managed by ICANN, add to the base list
-			answerBaseDomains = appendIfUnique(basename, answerBaseDomains)
+			answerBaseDomains = common.AppendIfUnique(basename, answerBaseDomains)
 		} else {
 			// it's not managed by ICANN, so it's private - add it to the private list
-			answerPrivateDomains = appendIfUnique(name, answerPrivateDomains)
+			answerPrivateDomains = common.AppendIfUnique(name, answerPrivateDomains)
 		}
 
 		// Check if we got an A record answer
@@ -71,19 +72,19 @@ func printDNSAnswerSummary() {
 	// Output base domains answered with
 	if len(answerBaseDomains) > 0 {
 		fmt.Println("Answered with these base domains:")
-		printTree(answerBaseDomains)
+		common.PrintTree(answerBaseDomains)
 	}
 
 	// Output private domains
 	if len(answerPrivateDomains) > 0 {
 		fmt.Println("Answered with these private (non-ICANN managed) domains:")
-		printTree(answerPrivateDomains)
+		common.PrintTree(answerPrivateDomains)
 	}
 
 	// Check for public and private IPs
 	fmt.Printf("Answered with %d public IP addresses and %d private IP addresses\n", len(answerPublicIPv4), len(answerPrivateIPv4))
 	if len(answerPrivateIPv4) > 0 {
 		fmt.Println("Private IP addresses in answer:")
-		printTree(answerPrivateIPv4)
+		common.PrintTree(answerPrivateIPv4)
 	}
 }

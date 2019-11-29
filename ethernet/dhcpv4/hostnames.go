@@ -2,6 +2,7 @@ package dhcpv4
 
 import (
 	"fmt"
+	"git.darknebu.la/maride/pancap/common"
 	"github.com/google/gopacket/layers"
 	"log"
 )
@@ -71,7 +72,7 @@ func printHostnames() {
 	}
 
 	// and print it as a tree.
-	printTree(tmparr)
+	common.PrintTree(tmparr)
 }
 
 // Adds the given hostname to the hostname array, or patches an existing entry if found

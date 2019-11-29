@@ -2,6 +2,7 @@ package arp
 
 import (
 	"fmt"
+	"git.darknebu.la/maride/pancap/common"
 	"github.com/fatih/color"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
@@ -33,14 +34,14 @@ func ProcessARPPacket(packet gopacket.Packet) error {
 	if arppacket.Operation == layers.ARPRequest {
 		// Request packet
 		participant.asked++
-		participant.askedList = appendIfUnique(net.IP(arppacket.DstProtAddress).String(), participant.askedList)
+		participant.askedList = common.AppendIfUnique(net.IP(arppacket.DstProtAddress).String(), participant.askedList)
 
 		// Add device entry
 		addDeviceEntry(sourceAddr, net.IP(arppacket.SourceProtAddress).String())
 	} else {
 		// Response packet
 		participant.answered++
-		participant.answeredList = appendIfUnique(net.IP(arppacket.SourceProtAddress).String(), participant.answeredList)
+		participant.answeredList = common.AppendIfUnique(net.IP(arppacket.SourceProtAddress).String(), participant.answeredList)
 
 		// Add device entry
 		addDeviceEntry(sourceAddr, net.IP(arppacket.SourceProtAddress).String())
@@ -68,7 +69,7 @@ func printTrafficStats() {
 	}
 
 	// And print it as a tree
-	printTree(tmparr)
+	common.PrintTree(tmparr)
 }
 
 // Prints an overview over all connected devices in the LAN
@@ -81,7 +82,7 @@ func printLANOverview() {
 	}
 
 	// And print it as a tree
-	printTree(tmparr)
+	common.PrintTree(tmparr)
 }
 
 // Returns the arpStats object for the given MAC address, or creates a new one

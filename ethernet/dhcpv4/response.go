@@ -2,6 +2,7 @@ package dhcpv4
 
 import (
 	"fmt"
+	"git.darknebu.la/maride/pancap/common"
 	"github.com/google/gopacket/layers"
 	"log"
 )
@@ -30,7 +31,7 @@ func printResponseSummary() {
 	}
 
 	// Draw as tree
-	printTree(tmpaddr)
+	common.PrintTree(tmpaddr)
 }
 
 // Adds a new response entry. If an IP address was already issued or a MAC asks multiple times for DNS, the case is examined further
