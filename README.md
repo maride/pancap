@@ -24,6 +24,14 @@ This will give you a result similar to this:
 
 [![asciicast](https://asciinema.org/a/x19gUpdnQoeUx498mPS0Grw6B.svg)](https://asciinema.org/a/x19gUpdnQoeUx498mPS0Grw6B)
 
+## Benchmarks
+
+Parsing an `n`GB big pcap takes `y` seconds:
+
+| `n`GB | `y` seconds |
+| ----- | ----------- |
+| 2     | 30          |
+
 ## Contributions
 
 ... yes please! There are still a lot of modules missing.
