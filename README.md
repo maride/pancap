@@ -22,9 +22,7 @@ Example usage:
 
 This will give you a result similar to this:
 
-
-<script id="asciicast-x19gUpdnQoeUx498mPS0Grw6B" src="https://asciinema.org/a/x19gUpdnQoeUx498mPS0Grw6B.js" async></script>
-
+[![asciicast](https://asciinema.org/a/x19gUpdnQoeUx498mPS0Grw6B)](https://asciinema.org/a/x19gUpdnQoeUx498mPS0Grw6B)
 
 ## Contributions
 
