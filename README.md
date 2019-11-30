@@ -22,7 +22,7 @@ Example usage:
 
 This will give you a result similar to this:
 
-[![asciicast](https://asciinema.org/a/x19gUpdnQoeUx498mPS0Grw6B)](https://asciinema.org/a/x19gUpdnQoeUx498mPS0Grw6B)
+[![asciicast](https://asciinema.org/a/x19gUpdnQoeUx498mPS0Grw6B.svg)](https://asciinema.org/a/x19gUpdnQoeUx498mPS0Grw6B)
 
 ## Contributions
 
