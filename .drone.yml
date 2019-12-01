@@ -2,8 +2,8 @@ kind: pipeline
 name: default
 
 platform:
-	os: linux
-	arch: amd64
+  os: linux
+  arch: amd64
 
 steps:
 - name: test
