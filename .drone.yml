@@ -1,0 +1,23 @@
+kind: pipeline
+name: default
+
+platform:
+	os: linux
+	arch: amd64
+
+steps:
+- name: test
+  image: golang:latest
+  commands:
+  - go test -cover -v .
+
+- name: coverage
+  image: golang:latest
+  commands:
+  - go test -coverprofile=cover.out
+  - go tool cover -func=cover.out
+
+- name: build
+  image: golang:latest
+  commands:
+  - go build .
