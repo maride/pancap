@@ -8,3 +8,4 @@ Please add yourself like this: `echo "- $USER" >> CONTRIBUTORS.md`
 ## List
 
 - maride
+- emile
