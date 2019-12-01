@@ -9,7 +9,7 @@ steps:
 - name: test
   image: golang:latest
   commands:
-  - go test -cover -v .
+  - go test -v .
 
 - name: coverage
   image: golang:latest
