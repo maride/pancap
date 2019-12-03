@@ -54,9 +54,9 @@ func processDNSAnswer(answers []layers.DNSResourceRecord) {
 		if answer.Type == layers.DNSTypeA {
 			// A record, check IP for being private
 			if ipIsPrivate(answer.IP) {
-				answerPrivateIPv4 = append(answerPrivateIPv4, answer.IP.String())
+				answerPrivateIPv4 = common.AppendIfUnique(answer.IP.String(), answerPrivateIPv4)
 			} else {
-				answerPublicIPv4 = append(answerPublicIPv4, answer.IP.String())
+				answerPublicIPv4 = common.AppendIfUnique(answer.IP.String(), answerPublicIPv4)
 			}
 		}
 	}
