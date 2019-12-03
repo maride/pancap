@@ -1,7 +1,7 @@
 package dhcpv4
 
 import (
-	"github.com/fatih/color"
+	"git.darknebu.la/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 )
@@ -50,13 +50,8 @@ func HandleDHCPv4Packet(packet gopacket.Packet) error {
 
 // Print summary after all packets are processed
 func PrintDHCPv4Summary() {
-	headline := color.New(color.FgRed, color.Bold)
-	headline.Println("DHCP Network Overview")
-	printNetworkSummary()
-	headline.Println("DHCP Requests")
-	printRequestSummary()
-	headline.Println("DHCP Responses/Offers")
-	printResponseSummary()
-	headline.Println("DHCP Hostnames")
-	printHostnames()
+	output.PrintBlock("DHCP Network Overview", generateNetworkSummary())
+	output.PrintBlock("DHCP Requests", generateRequestSummary())
+	output.PrintBlock("DHCP Responses/Offers", generateResponseSummary())
+	output.PrintBlock("DHCP Hostnames", generateHostnamesSummary())
 }

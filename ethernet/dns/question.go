@@ -51,22 +51,25 @@ func processDNSQuestion(questions []layers.DNSQuestion) {
 	}
 }
 
-// Prints a summary of all DNS questions
-func printDNSQuestionSummary() {
+// Generates a summary of all DNS questions
+func generateDNSQuestionSummary() string {
+	summary := ""
+
 	// Overall question stats
-	fmt.Printf("%d DNS questions in total\n", numQuestions)
-	fmt.Printf("%s records\n", generateDNSTypeSummary(questionType))
-	fmt.Printf("%d unique domains of %d base domains, of which are %d private (non-ICANN) TLDs.\n", len(questionDomains), len(questionBaseDomains), len(questionPrivateDomains))
+	summary = fmt.Sprintf("%s%d DNS questions in total\n", summary, numQuestions)
+	summary = fmt.Sprintf("%s%s records\n", summary, generateDNSTypeSummary(questionType))
+	summary = fmt.Sprintf("%s%d unique domains of %d base domains, of which are %d private (non-ICANN) TLDs.\n", summary, len(questionDomains), len(questionBaseDomains), len(questionPrivateDomains))
 
 	// Output base domains asked for
 	if len(questionBaseDomains) > 0 {
-		fmt.Println("Asked for these base domains:")
-		common.PrintTree(questionBaseDomains)
+		summary = fmt.Sprintf("%sAsked for these base domains:\n%s", summary, common.GenerateTree(questionBaseDomains))
 	}
 
 	// Output private domains
 	if len(questionPrivateDomains) > 0 {
-		fmt.Println("Asked for these private (non-ICANN managed) domains:")
-		common.PrintTree(questionPrivateDomains)
+		summary = fmt.Sprintf("%sAsked for these private (non-ICANN managed) domains:\n%s", summary, common.GenerateTree(questionPrivateDomains))
 	}
+
+	// And return summary
+	return summary
 }

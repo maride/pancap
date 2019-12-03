@@ -140,14 +140,16 @@ func formatDate(rawDate []byte) string {
 	return formattedDate
 }
 
-// Prints the summary of relevant DHCP options
-func printNetworkSummary() {
-	fmt.Printf("Subnet Mask: %s\n", formatIP(networkSetup[layers.DHCPOptSubnetMask]))
-	fmt.Printf("Broadcast: %s\n", formatIP(networkSetup[layers.DHCPOptBroadcastAddr]))
-	fmt.Printf("Router: %s\n", formatIP(networkSetup[layers.DHCPOptRouter]))
-	fmt.Printf("DNS Server: %s\n", formatIP(networkSetup[layers.DHCPOptDNS]))
-	fmt.Printf("NTP Server: %s\n", formatIP(networkSetup[layers.DHCPOptNTPServers]))
-	fmt.Printf("Lease Time: %s\n", formatDate(networkSetup[layers.DHCPOptLeaseTime]))
-	fmt.Printf("Renewal Time: %s\n", formatDate(networkSetup[layers.DHCPOptT1]))
+// Generates the summary of relevant DHCP options
+func generateNetworkSummary() string {
+	// It's also possible to use strings.Builder here, but it produces code which is longer than this solution :shrug:
+	summary := fmt.Sprintf("Subnet Mask: %s\n", formatIP(networkSetup[layers.DHCPOptSubnetMask]))
+	summary = fmt.Sprintf("%sBroadcast: %s\n", summary, formatIP(networkSetup[layers.DHCPOptBroadcastAddr]))
+	summary = fmt.Sprintf("%sRouter: %s\n", summary, formatIP(networkSetup[layers.DHCPOptRouter]))
+	summary = fmt.Sprintf("%sDNS Server: %s\n", summary, formatIP(networkSetup[layers.DHCPOptDNS]))
+	summary = fmt.Sprintf("%sNTP Server: %s\n", summary, formatIP(networkSetup[layers.DHCPOptNTPServers]))
+	summary = fmt.Sprintf("%sLease Time: %s\n", summary, formatDate(networkSetup[layers.DHCPOptLeaseTime]))
+	summary = fmt.Sprintf("%sRenewal Time: %s\n", summary, formatDate(networkSetup[layers.DHCPOptT1]))
+	return summary
 }
 

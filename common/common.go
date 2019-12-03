@@ -16,15 +16,20 @@ func AppendIfUnique(appendee string, array []string) []string {
 	return append(array, appendee)
 }
 
-// Prints each element, along with a small ASCII tree
-func PrintTree(strarr []string) {
+// Generates a small ASCII tree for the given string array
+func GenerateTree(strarr []string) string {
+	tmpstr := ""
+
 	// iterate over each element
 	for iter, elem := range strarr {
 		// check if we got the last element
 		if iter < len(strarr) - 1 {
-			fmt.Printf("|- %s\n", elem)
+			tmpstr = fmt.Sprintf("%s|- %s\n", tmpstr, elem)
 		} else {
-			fmt.Printf("'- %s\n\n", elem)
+			tmpstr = fmt.Sprintf( "%s'- %s\n", tmpstr, elem)
 		}
 	}
+
+	// Return constructed (grown?) tree
+	return tmpstr
 }

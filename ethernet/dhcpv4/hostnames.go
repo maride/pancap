@@ -39,8 +39,8 @@ func checkForHostname(dhcppacket layers.DHCPv4) {
 	// None found, means client or server doesn't support Hostname option field. Ignore.
 }
 
-// Prints the list of all hostnames encountered.
-func printHostnames() {
+// Generates the list of all hostnames encountered.
+func generateHostnamesSummary() string {
 	var tmparr []string
 
 	// Construct meaningful text
@@ -72,7 +72,7 @@ func printHostnames() {
 	}
 
 	// and print it as a tree.
-	common.PrintTree(tmparr)
+	return common.GenerateTree(tmparr)
 }
 
 // Adds the given hostname to the hostname array, or patches an existing entry if found

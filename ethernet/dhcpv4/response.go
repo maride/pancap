@@ -15,8 +15,8 @@ func processResponsePacket(dhcppacket layers.DHCPv4, ethernetpacket layers.Ether
 	addResponseEntry(dhcppacket.ClientIP.String(), dhcppacket.YourClientIP.String(), dhcppacket.ClientHWAddr.String(), ethernetpacket.SrcMAC.String())
 }
 
-// Prints the summary of all DHCP offer packets
-func printResponseSummary() {
+// Generates the summary of all DHCP offer packets
+func generateResponseSummary() string {
 	var tmpaddr []string
 
 	// Iterate over all responses
@@ -31,7 +31,7 @@ func printResponseSummary() {
 	}
 
 	// Draw as tree
-	common.PrintTree(tmpaddr)
+	return common.GenerateTree(tmpaddr)
 }
 
 // Adds a new response entry. If an IP address was already issued or a MAC asks multiple times for DNS, the case is examined further

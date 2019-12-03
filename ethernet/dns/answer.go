@@ -62,29 +62,31 @@ func processDNSAnswer(answers []layers.DNSResourceRecord) {
 	}
 }
 
-// Prints a summary of all DNS answers
-func printDNSAnswerSummary() {
+// Generates a summary of all DNS answers
+func generateDNSAnswerSummary() string {
+	summary := ""
+
 	// Overall question stats
-	fmt.Printf("%d DNS answers in total\n", numAnswers)
-	fmt.Printf("%s records\n", generateDNSTypeSummary(answerType))
-	fmt.Printf("%d unique domains of %d base domains, of which are %d private (non-ICANN) TLDs.\n", len(answerDomains), len(answerBaseDomains), len(answerPrivateDomains))
+	summary = fmt.Sprintf("%s%d DNS answers in total\n", summary, numAnswers)
+	summary = fmt.Sprintf("%s%s records\n", summary, generateDNSTypeSummary(answerType))
+	summary = fmt.Sprintf("%s%d unique domains of %d base domains, of which are %d private (non-ICANN) TLDs.\n", summary, len(answerDomains), len(answerBaseDomains), len(answerPrivateDomains))
 
 	// Output base domains answered with
 	if len(answerBaseDomains) > 0 {
-		fmt.Println("Answered with these base domains:")
-		common.PrintTree(answerBaseDomains)
+		summary = fmt.Sprintf("Answered with these base domains:\n%s", common.GenerateTree(answerBaseDomains))
 	}
 
 	// Output private domains
 	if len(answerPrivateDomains) > 0 {
-		fmt.Println("Answered with these private (non-ICANN managed) domains:")
-		common.PrintTree(answerPrivateDomains)
+		summary = fmt.Sprintf("%sAnswered with these private (non-ICANN managed) domains:\n%s", summary, common.GenerateTree(answerPrivateDomains))
 	}
 
 	// Check for public and private IPs
-	fmt.Printf("Answered with %d public IP addresses and %d private IP addresses\n", len(answerPublicIPv4), len(answerPrivateIPv4))
+	summary = fmt.Sprintf("%sAnswered with %d public IP addresses and %d private IP addresses\n", summary, len(answerPublicIPv4), len(answerPrivateIPv4))
 	if len(answerPrivateIPv4) > 0 {
-		fmt.Println("Private IP addresses in answer:")
-		common.PrintTree(answerPrivateIPv4)
+		summary = fmt.Sprintf("%sPrivate IP addresses in answer:\n%s", summary, common.GenerateTree(answerPrivateIPv4))
 	}
+
+	// Return summary
+	return summary
 }

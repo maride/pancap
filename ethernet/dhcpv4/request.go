@@ -15,8 +15,7 @@ func processRequestPacket(dhcppacket layers.DHCPv4) {
 	requestMAC = common.AppendIfUnique(dhcppacket.ClientHWAddr.String(), requestMAC)
 }
 
-// Prints the summary of all DHCP request packets
-func printRequestSummary() {
-	fmt.Printf("%d unique DHCP requests\n", len(requestMAC))
-	common.PrintTree(requestMAC)
+// Generates the summary of all DHCP request packets
+func generateRequestSummary() string {
+	return fmt.Sprintf("%d unique DHCP requests\n%s", len(requestMAC), common.GenerateTree(requestMAC))
 }

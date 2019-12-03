@@ -1,7 +1,7 @@
 package dns
 
 import (
-	"github.com/fatih/color"
+	"git.darknebu.la/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 )
@@ -27,9 +27,6 @@ func ProcessDNSPacket(packet gopacket.Packet) error {
 
 // Print a summary after all DNS packets were processed
 func PrintDNSSummary() {
-	headline := color.New(color.FgRed, color.Bold)
-	headline.Println("DNS Request Summary")
-	printDNSQuestionSummary()
-	headline.Println("DNS Response Summary")
-	printDNSAnswerSummary()
+	output.PrintBlock("DNS Request Summary", generateDNSQuestionSummary())
+	output.PrintBlock("DNS Response Summary", generateDNSAnswerSummary())
 }

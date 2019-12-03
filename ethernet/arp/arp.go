@@ -3,7 +3,7 @@ package arp
 import (
 	"fmt"
 	"git.darknebu.la/maride/pancap/common"
-	"github.com/fatih/color"
+	"git.darknebu.la/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"log"
@@ -52,15 +52,12 @@ func ProcessARPPacket(packet gopacket.Packet) error {
 
 // Print a summary after all packets are processed
 func PrintARPSummary() {
-	headline := color.New(color.FgRed, color.Bold)
-	headline.Println("ARP traffic summary")
-	printTrafficStats()
-	headline.Println("ARP LAN overview")
-	printLANOverview()
+	output.PrintBlock("ARP traffic summary", generateTrafficStats())
+	output.PrintBlock("ARP LAN overview", generateLANOverview())
 }
 
-// Constructs an answer regarding the ARP traffic
-func printTrafficStats() {
+// Generates an answer regarding the ARP traffic
+func generateTrafficStats() string {
 	var tmparr []string
 
 	// Iterate over all participants
@@ -82,11 +79,11 @@ func printTrafficStats() {
 	}
 
 	// And print it as a tree
-	common.PrintTree(tmparr)
+	return common.GenerateTree(tmparr)
 }
 
-// Prints an overview over all connected devices in the LAN
-func printLANOverview() {
+// Generates an overview over all connected devices in the LAN
+func generateLANOverview() string {
 	var tmparr []string
 
 	// iterate over all devices
@@ -95,7 +92,7 @@ func printLANOverview() {
 	}
 
 	// And print it as a tree
-	common.PrintTree(tmparr)
+	return common.GenerateTree(tmparr)
 }
 
 // Returns the arpStats object for the given MAC address, or creates a new one
