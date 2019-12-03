@@ -43,6 +43,7 @@ func HandleDHCPv4Packet(packet gopacket.Packet) error {
 
 	// Check for Hostname DHCP option (12)
 	checkForHostname(dhcppacket)
+	checkForNetworkInfos(dhcppacket)
 
 	return nil
 }
@@ -50,6 +51,8 @@ func HandleDHCPv4Packet(packet gopacket.Packet) error {
 // Print summary after all packets are processed
 func PrintDHCPv4Summary() {
 	headline := color.New(color.FgRed, color.Bold)
+	headline.Println("DHCP Network Overview")
+	printNetworkSummary()
 	headline.Println("DHCP Requests")
 	printRequestSummary()
 	headline.Println("DHCP Responses/Offers")
