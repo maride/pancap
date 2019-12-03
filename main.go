@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"git.darknebu.la/maride/pancap/output"
 	"log"
 	"math/rand"
 	"time"
@@ -14,6 +15,7 @@ func main() {
 
 	// register flags
 	registerFileFlags()
+	output.RegisterFlags()
 	flag.Parse()
 
 	// Open the given PCAP
@@ -29,6 +31,9 @@ func main() {
 		// Mh, encountered some problems while analyzing file
 		log.Fatalf("Error occurred while analyzing: %s", analyzeErr.Error())
 	}
+
+	// Finalize output
+	output.Finalize()
 }
 
 // Prints a simple figlet-style ASCII art and a random quote
