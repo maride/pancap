@@ -65,7 +65,20 @@ func printTrafficStats() {
 
 	// Iterate over all participants
 	for _, p := range arpStatsList {
-		tmparr = append(tmparr, fmt.Sprintf("%s asked for %d addresses and answered %d requests", p.macaddr, p.asked, p.answered))
+		// produce a meaningful output
+		if p.asked > 0 {
+			// device asked at least for one IP
+			if p.answered > 0 {
+				// and also answered requests
+				tmparr = append(tmparr, fmt.Sprintf("%s asked for %d addresses and answered %d requests", p.macaddr, p.asked, p.answered))
+			} else {
+				// only asked, never answered
+				tmparr = append(tmparr, fmt.Sprintf("%s asked for %d addresses", p.macaddr, p.asked))
+			}
+		} else {
+			// Answered, but never asked for any addresses
+			tmparr = append(tmparr, fmt.Sprintf("%s answered %d requests", p.macaddr, p.answered))
+		}
 	}
 
 	// And print it as a tree
