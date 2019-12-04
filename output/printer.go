@@ -7,7 +7,7 @@ import (
 
 const (
 	MaxContentLines = 50
-	SnipMark = "----- cut at 50 entries -----\n"
+	SnipMark = "----- cut at 50 entries -----"
 )
 
 var (
@@ -64,6 +64,6 @@ func cutContent(content string) string {
 
 // Adds a notice about the snipping process
 func addSnipMark(content string) string {
-	printer := color.New(color.Bold)
-	return content + "\n" + printer.Sprint(SnipMark)
+	printer := color.New(color.Bold, color.BgBlack)
+	return content + "\n" + printer.Sprint(SnipMark) + "\n"
 }
