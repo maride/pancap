@@ -12,12 +12,20 @@ const (
 
 var (
 	DidSnip bool
+	DidAvoidEmptyBlock bool
 )
 
 // Prints a block of information with the given headline
 // If content is empty, printing the headline is omitted.
 // If the content is longer than MaxContentLines, content is cut.
 func PrintBlock(headline string, content string) {
+	// Avoid printing empty blocks - at least if user didn't specify it otherwise
+	if len(content) == 0 && !*printEmptyBlocks {
+		// No content and we are not forced to print empty blocks, return
+		DidAvoidEmptyBlock = true
+		return
+	}
+
 	// Print a newline to add some space between blocks
 	fmt.Println("")
 
