@@ -24,9 +24,9 @@ func GenerateTree(strarr []string) string {
 	for iter, elem := range strarr {
 		// check if we got the last element
 		if iter < len(strarr) - 1 {
-			tmpstr = fmt.Sprintf("%s|- %s\n", tmpstr, elem)
+			tmpstr = fmt.Sprintf("%s├ %s\n", tmpstr, elem)
 		} else {
-			tmpstr = fmt.Sprintf( "%s'- %s\n", tmpstr, elem)
+			tmpstr = fmt.Sprintf( "%s╰ %s\n", tmpstr, elem)
 		}
 	}
 
