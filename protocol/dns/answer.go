@@ -19,7 +19,7 @@ var (
 )
 
 // Called on every DNS packet to process response(s)
-func processDNSAnswer(answers []layers.DNSResourceRecord) {
+func (p *Protocol) processDNSAnswer(answers []layers.DNSResourceRecord) {
 	for _, answer := range answers {
 		// Raise stats
 		numAnswers++
@@ -35,7 +35,7 @@ func processDNSAnswer(answers []layers.DNSResourceRecord) {
 		}
 
 		// Process type answers
-		processType(answerType, answer.Type)
+		p.processType(answerType, answer.Type)
 
 		// Append full domain and base domain
 		answerDomains = common.AppendIfUnique(name, answerDomains)
@@ -63,12 +63,12 @@ func processDNSAnswer(answers []layers.DNSResourceRecord) {
 }
 
 // Generates a summary of all DNS answers
-func generateDNSAnswerSummary() string {
+func (p *Protocol) generateDNSAnswerSummary() string {
 	summary := ""
 
 	// Overall question stats
 	summary = fmt.Sprintf("%s%d DNS answers in total\n", summary, numAnswers)
-	summary = fmt.Sprintf("%s%s records\n", summary, generateDNSTypeSummary(answerType))
+	summary = fmt.Sprintf("%s%s records\n", summary, p.generateDNSTypeSummary(answerType))
 	summary = fmt.Sprintf("%s%d unique domains of %d base domains, of which are %d private (non-ICANN) TLDs.\n", summary, len(answerDomains), len(answerBaseDomains), len(answerPrivateDomains))
 
 	// Output base domains answered with

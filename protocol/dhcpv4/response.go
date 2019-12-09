@@ -7,20 +7,16 @@ import (
 	"log"
 )
 
-var (
-	responses []dhcpResponse
-)
-
-func processResponsePacket(dhcppacket layers.DHCPv4, ethernetpacket layers.Ethernet) {
-	addResponseEntry(dhcppacket.ClientIP.String(), dhcppacket.YourClientIP.String(), dhcppacket.ClientHWAddr.String(), ethernetpacket.SrcMAC.String())
+func (p *Protocol) processResponsePacket(dhcppacket layers.DHCPv4, ethernetpacket layers.Ethernet) {
+	p.addResponseEntry(dhcppacket.ClientIP.String(), dhcppacket.YourClientIP.String(), dhcppacket.ClientHWAddr.String(), ethernetpacket.SrcMAC.String())
 }
 
 // Generates the summary of all DHCP offer packets
-func generateResponseSummary() string {
+func (p *Protocol) generateResponseSummary() string {
 	var tmpaddr []string
 
 	// Iterate over all responses
-	for _, r := range responses {
+	for _, r := range p.responses {
 		addition := ""
 
 		if r.askedFor {
@@ -35,7 +31,7 @@ func generateResponseSummary() string {
 }
 
 // Adds a new response entry. If an IP address was already issued or a MAC asks multiple times for DNS, the case is examined further
-func addResponseEntry(newIP string, yourIP string, destMAC string, serverMAC string) {
+func (p *Protocol) addResponseEntry(newIP string, yourIP string, destMAC string, serverMAC string) {
 	// Check if client asked for a specific address (which was granted by the DHCP server)
 	askedFor := false
 	if newIP == "0.0.0.0" {
@@ -44,7 +40,7 @@ func addResponseEntry(newIP string, yourIP string, destMAC string, serverMAC str
 		askedFor = true
 	}
 
-	for _, r := range responses {
+	for _, r := range p.responses {
 		// Check for interesting cases
 		if r.destMACAddr == destMAC {
 			// The same client device received multiple IP addresses, let's examine further
@@ -71,7 +67,7 @@ func addResponseEntry(newIP string, yourIP string, destMAC string, serverMAC str
 	}
 
 	// Add a response entry - even if we found some "strange" behavior before.
-	responses = append(responses, dhcpResponse{
+	p.responses = append(p.responses, dhcpResponse{
 		destMACAddr:   destMAC,
 		newIPAddr:     newIP,
 		serverMACAddr: serverMAC,

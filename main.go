@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"git.darknebu.la/maride/pancap/analyze"
 	"git.darknebu.la/maride/pancap/output"
 	"log"
 	"math/rand"
@@ -19,18 +20,21 @@ func main() {
 	flag.Parse()
 
 	// Open the given PCAP
-	packetSource, linkType, fileErr := openPCAP()
+	packetSource, _, fileErr := openPCAP()
 	if fileErr != nil {
 		// Encountered problems with the PCAP - permission and/or existance error
 		log.Fatalf("Error occured while opeining specified file: %s", fileErr.Error())
 	}
 
 	// Start analyzing
-	analyzeErr := analyzePCAP(packetSource, linkType)
+	analyzeErr := analyze.Analyze(packetSource)
 	if analyzeErr != nil {
 		// Mh, encountered some problems while analyzing file
 		log.Fatalf("Error occurred while analyzing: %s", analyzeErr.Error())
 	}
+
+	// Show user analysis
+	analyze.PrintSummary()
 
 	// Finalize output
 	output.Finalize()

@@ -7,25 +7,21 @@ import (
 	"log"
 )
 
-var (
-	hostnames []hostname
-)
-
-func checkForHostname(dhcppacket layers.DHCPv4) {
+func (p *Protocol) checkForHostname(dhcppacket layers.DHCPv4) {
 	// Search for "Hostname" option (ID 12) in DHCP Packet Options
 	for _, o := range dhcppacket.Options {
 		if o.Type == layers.DHCPOptHostname {
 			// found it. Let's see if it's a request or response
 			if dhcppacket.Operation == layers.DHCPOpRequest {
 				// request, not granted yet.
-				addHostname(hostname{
+				p.addHostname(hostname{
 					hostname:       string(o.Data),
 					requestedByMAC: dhcppacket.ClientHWAddr.String(),
 					granted:        false,
 				})
 			} else {
 				// Response, DHCP issued this hostname
-				addHostname(hostname{
+				p.addHostname(hostname{
 					hostname:       string(o.Data),
 					requestedByMAC: "",
 					granted:        true,
@@ -40,11 +36,11 @@ func checkForHostname(dhcppacket layers.DHCPv4) {
 }
 
 // Generates the list of all hostnames encountered.
-func generateHostnamesSummary() string {
+func (p *Protocol) generateHostnamesSummary() string {
 	var tmparr []string
 
 	// Construct meaningful text
-	for _, h := range hostnames {
+	for _, h := range p.hostnames {
 		answer := ""
 
 		// check what kind of answer we need to construct
@@ -76,11 +72,11 @@ func generateHostnamesSummary() string {
 }
 
 // Adds the given hostname to the hostname array, or patches an existing entry if found
-func addHostname(tmph hostname) {
+func (p *Protocol) addHostname(tmph hostname) {
 	// see if we have an existing entry for this hostname
-	for i := 0; i < len(hostnames); i++ {
+	for i := 0; i < len(p.hostnames); i++ {
 		// get ith hostname in the list
-		h := hostnames[i]
+		h := p.hostnames[i]
 
 		// ... and check if it's the one requested
 		if h.hostname == tmph.hostname {
@@ -97,13 +93,13 @@ func addHostname(tmph hostname) {
 				// Received a response for this hostname, check if it was granted
 				if h.hostname == tmph.hostname {
 					// granted, everything is fine.
-					hostnames[i].granted = true
+					p.hostnames[i].granted = true
 				} else {
 					// Received a different hostname than the one requested by the MAC. Report that.
 					log.Printf("Client %s asked for hostname '%s' but was given '%s' by DHCP server", h.requestedByMAC, tmph.hostname, h.hostname)
-					hostnames[i].deniedHostname = hostnames[i].hostname
-					hostnames[i].hostname = tmph.hostname
-					hostnames[i].granted = false
+					p.hostnames[i].deniedHostname = p.hostnames[i].hostname
+					p.hostnames[i].hostname = tmph.hostname
+					p.hostnames[i].granted = false
 				}
 				// in either case, it's a response by the DHCP server - hostname is granted in this context
 
@@ -114,5 +110,5 @@ func addHostname(tmph hostname) {
 	}
 
 	// We didn't find the desired hostname, append given object to the list
-	hostnames = append(hostnames, tmph)
+	p.hostnames = append(p.hostnames, tmph)
 }

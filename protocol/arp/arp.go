@@ -15,8 +15,15 @@ var (
 	devices []arpDevice
 )
 
-// Called on every ARP packet
-func ProcessARPPacket(packet gopacket.Packet) error {
+type Protocol struct {}
+
+// Checks if the given packet is an ARP packet we can process
+func (p *Protocol) CanAnalyze(packet gopacket.Packet) bool {
+	return packet.Layer(layers.LayerTypeARP) != nil
+}
+
+// Analyzes the given ARP packet
+func (p *Protocol) Analyze(packet gopacket.Packet) error {
 	var arppacket layers.ARP
 
 	// Decode raw packet into ARP
@@ -28,7 +35,7 @@ func ProcessARPPacket(packet gopacket.Packet) error {
 
 	// Convert MAC address byte array to string
 	sourceAddr := net.HardwareAddr(arppacket.SourceHwAddress).String()
-	participant := getStatOrCreate(sourceAddr)
+	participant := p.getStatOrCreate(sourceAddr)
 
 	// Raise stats
 	if arppacket.Operation == layers.ARPRequest {
@@ -37,27 +44,27 @@ func ProcessARPPacket(packet gopacket.Packet) error {
 		participant.askedList = common.AppendIfUnique(net.IP(arppacket.DstProtAddress).String(), participant.askedList)
 
 		// Add device entry
-		addDeviceEntry(sourceAddr, net.IP(arppacket.SourceProtAddress).String())
+		p.addDeviceEntry(sourceAddr, net.IP(arppacket.SourceProtAddress).String())
 	} else {
 		// Response packet
 		participant.answered++
 		participant.answeredList = common.AppendIfUnique(net.IP(arppacket.SourceProtAddress).String(), participant.answeredList)
 
 		// Add device entry
-		addDeviceEntry(sourceAddr, net.IP(arppacket.SourceProtAddress).String())
+		p.addDeviceEntry(sourceAddr, net.IP(arppacket.SourceProtAddress).String())
 	}
 
 	return nil
 }
 
 // Print a summary after all packets are processed
-func PrintARPSummary() {
-	output.PrintBlock("ARP traffic summary", generateTrafficStats())
-	output.PrintBlock("ARP LAN overview", generateLANOverview())
+func (p *Protocol) PrintSummary() {
+	output.PrintBlock("ARP traffic summary", p.generateTrafficStats())
+	output.PrintBlock("ARP LAN overview", p.generateLANOverview())
 }
 
 // Generates an answer regarding the ARP traffic
-func generateTrafficStats() string {
+func (p *Protocol) generateTrafficStats() string {
 	var tmparr []string
 
 	// Iterate over all participants
@@ -83,7 +90,7 @@ func generateTrafficStats() string {
 }
 
 // Generates an overview over all connected devices in the LAN
-func generateLANOverview() string {
+func (p *Protocol) generateLANOverview() string {
 	var tmparr []string
 
 	// iterate over all devices
@@ -96,7 +103,7 @@ func generateLANOverview() string {
 }
 
 // Returns the arpStats object for the given MAC address, or creates a new one
-func getStatOrCreate(macaddr string) *arpStats {
+func (p *Protocol) getStatOrCreate(macaddr string) *arpStats {
 	// Try to find the given macaddr
 	for i := 0; i < len(arpStatsList); i++ {
 		if arpStatsList[i].macaddr == macaddr {
@@ -115,7 +122,7 @@ func getStatOrCreate(macaddr string) *arpStats {
 }
 
 // Adds a new entry to the devices array, checking if there may be a collision (=ARP Spoofing)
-func addDeviceEntry(macaddr string, ipaddr string) {
+func (p *Protocol) addDeviceEntry(macaddr string, ipaddr string) {
 	if ipaddr == "0.0.0.0" {
 		// Possible ARP request if sender doesn't have an IP address yet. Ignore.
 		return

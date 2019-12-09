@@ -17,7 +17,7 @@ var (
 )
 
 // Processes the given dnstype and raises its stats in the given array
-func processType(typearr map[layers.DNSType]int, dnstype layers.DNSType) {
+func (p *Protocol) processType(typearr map[layers.DNSType]int, dnstype layers.DNSType) {
 	typearr[dnstype]++
 }
 
@@ -36,7 +36,7 @@ func ipIsPrivate(ip net.IP) bool {
 }
 
 // Generates a summary string for DNS types in the given array
-func generateDNSTypeSummary(typearr map[layers.DNSType]int) string {
+func (p *Protocol) generateDNSTypeSummary(typearr map[layers.DNSType]int) string {
 	var answerarr []string
 
 	// Iterate over all possible DNS types

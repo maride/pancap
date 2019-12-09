@@ -1,11 +1,8 @@
-package ethernet
+package analyze
 
 import (
-	"git.darknebu.la/maride/pancap/ethernet/arp"
-	"git.darknebu.la/maride/pancap/ethernet/dhcpv4"
-	"git.darknebu.la/maride/pancap/ethernet/dns"
+	"git.darknebu.la/maride/pancap/protocol"
 	"github.com/google/gopacket"
-	"github.com/google/gopacket/layers"
 	"log"
 )
 
@@ -22,33 +19,23 @@ func Analyze(source *gopacket.PacketSource) error {
 			continue
 		}
 
-		if packet.Layer(layers.LayerTypeDNS) != nil {
-			// Handle DNS packet
-			handleErr(dns.ProcessDNSPacket(packet))
-		}
-
-		if packet.Layer(layers.LayerTypeARP) != nil {
-			// Handle ARP packet
-			handleErr(arp.ProcessARPPacket(packet))
-		}
-
-		if packet.Layer(layers.LayerTypeDHCPv4) != nil {
-			// Handle DHCP (v4) packet
-			handleErr(dhcpv4.HandleDHCPv4Packet(packet))
+		// Iterate over all possible protocols
+		for _, p := range protocol.Protocols {
+			// Check if this protocol can handle this packet
+			if p.CanAnalyze(packet) {
+				handleErr(p.Analyze(packet))
+			}
 		}
 	}
-
-	// After processing all packets, print summary
-	printSummary()
 
 	return nil
 }
 
 // Prints all the summaries.
-func printSummary() {
-	arp.PrintARPSummary()
-	dns.PrintDNSSummary()
-	dhcpv4.PrintDHCPv4Summary()
+func PrintSummary() {
+	for _, p := range protocol.Protocols {
+		p.PrintSummary()
+	}
 }
 
 // Handles an error, if err is not nil.
@@ -58,3 +45,4 @@ func handleErr(err error) {
 		log.Printf("Encountered error while examining packets, continuing anyway. Error: %s", err.Error())
 	}
 }
+

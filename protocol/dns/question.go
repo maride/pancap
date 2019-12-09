@@ -17,7 +17,7 @@ var (
 )
 
 // Called on every DNS packet to process questions
-func processDNSQuestion(questions []layers.DNSQuestion) {
+func (p *Protocol) processDNSQuestion(questions []layers.DNSQuestion) {
 	// Iterate over all questions
 	for _, question := range questions {
 		// Raise stats
@@ -34,7 +34,7 @@ func processDNSQuestion(questions []layers.DNSQuestion) {
 		}
 
 		// Process type questions
-		processType(questionType, question.Type)
+		p.processType(questionType, question.Type)
 
 		// Append full domain and base domain
 		questionDomains = common.AppendIfUnique(name, questionDomains)
@@ -52,12 +52,12 @@ func processDNSQuestion(questions []layers.DNSQuestion) {
 }
 
 // Generates a summary of all DNS questions
-func generateDNSQuestionSummary() string {
+func (p *Protocol) generateDNSQuestionSummary() string {
 	summary := ""
 
 	// Overall question stats
 	summary = fmt.Sprintf("%s%d DNS questions in total\n", summary, numQuestions)
-	summary = fmt.Sprintf("%s%s records\n", summary, generateDNSTypeSummary(questionType))
+	summary = fmt.Sprintf("%s%s records\n", summary, p.generateDNSTypeSummary(questionType))
 	summary = fmt.Sprintf("%s%d unique domains of %d base domains, of which are %d private (non-ICANN) TLDs.\n", summary, len(questionDomains), len(questionBaseDomains), len(questionPrivateDomains))
 
 	// Output base domains asked for
