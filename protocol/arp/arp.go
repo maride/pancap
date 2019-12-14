@@ -13,6 +13,10 @@ import (
 var (
 	arpStatsList []arpStats
 	devices []arpDevice
+	linkLocalBlock = net.IPNet{
+		IP:   net.IPv4(169, 254, 0, 0),
+		Mask: net.IPv4Mask(255, 255, 0, 0),
+	}
 )
 
 type Protocol struct {}
@@ -132,7 +136,13 @@ func (p *Protocol) addDeviceEntry(macaddr string, ipaddr string) {
 		// check if we found a collision (possible ARP spoofing)
 		if (devices[i].macaddr == macaddr) != (devices[i].ipaddr == ipaddr) {
 			// this operation is practically XOR (which golang doesn't provide e.g. with ^)
-			log.Printf("Found possible ARP spoofing! Old: (MAC=%s, IP=%s), New: (MAC=%s, IP=%s). Overriding...", devices[i].macaddr, devices[i].ipaddr, macaddr, ipaddr)
+
+			// Check if one address is in the link-local block (169.254.0.0/16), ignore "ARP spoofing" then
+			if !linkLocalBlock.Contains(net.ParseIP(devices[i].ipaddr)) && !linkLocalBlock.Contains(net.ParseIP(ipaddr)) {
+				// The old and the new IP are both outside of the link-local range - we can warn about ARP spoofing
+				log.Printf("Found possible ARP spoofing! Old: (MAC=%s, IP=%s), New: (MAC=%s, IP=%s). Overriding...", devices[i].macaddr, devices[i].ipaddr, macaddr, ipaddr)
+			}
+
 			devices[i].macaddr = macaddr
 			devices[i].ipaddr = ipaddr
 			return
