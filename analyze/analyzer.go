@@ -1,9 +1,17 @@
 package analyze
 
 import (
+	"fmt"
+	"git.darknebu.la/maride/pancap/output"
 	"git.darknebu.la/maride/pancap/protocol"
 	"github.com/google/gopacket"
 	"log"
+)
+
+var (
+	// Store total amount and amount of visited packets
+	totalPackets int
+	processedPackets int
 )
 
 func Analyze(source *gopacket.PacketSource) error {
@@ -19,12 +27,22 @@ func Analyze(source *gopacket.PacketSource) error {
 			continue
 		}
 
+		// Track if we didn't process a packet
+		processed := false
+
 		// Iterate over all possible protocols
 		for _, p := range protocol.Protocols {
 			// Check if this protocol can handle this packet
 			if p.CanAnalyze(packet) {
 				handleErr(p.Analyze(packet))
+				processed = true
 			}
+		}
+
+		// Raise statistics
+		totalPackets += 1
+		if processed {
+			processedPackets += 1
 		}
 	}
 
@@ -33,6 +51,11 @@ func Analyze(source *gopacket.PacketSource) error {
 
 // Prints all the summaries.
 func PrintSummary() {
+	// First, print base information collected while analyzing
+	content := fmt.Sprintf("Processed %d out of %d packets (%d%%)", processedPackets, totalPackets, processedPackets*100/totalPackets)
+	output.PrintBlock("Overall statistics", content)
+
+	// Print summary of each protocol
 	for _, p := range protocol.Protocols {
 		p.PrintSummary()
 	}
