@@ -3,6 +3,7 @@ package output
 import (
 	"fmt"
 	"github.com/fatih/color"
+	"strings"
 )
 
 const (
@@ -42,8 +43,13 @@ func PrintBlock(headline string, content string) {
 		content = cutContent(content)
 	}
 
-	// And print our content.
+	// Print our content.
 	fmt.Print(content)
+
+	// Check if we need to add a newline character at the end
+	if !strings.HasSuffix(content, "\n") {
+		fmt.Print("\n")
+	}
 }
 
 // Cut content after MaxContentLines lines
