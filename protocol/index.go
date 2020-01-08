@@ -4,6 +4,7 @@ import (
 	"git.darknebu.la/maride/pancap/protocol/arp"
 	"git.darknebu.la/maride/pancap/protocol/dhcpv4"
 	"git.darknebu.la/maride/pancap/protocol/dns"
+	"git.darknebu.la/maride/pancap/protocol/http"
 )
 
 var (
@@ -11,5 +12,6 @@ var (
 		&arp.Protocol{},
 		&dhcpv4.Protocol{},
 		&dns.Protocol{},
+		&http.Protocol{},
 	}
 )
