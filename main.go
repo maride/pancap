@@ -33,8 +33,14 @@ func main() {
 		log.Fatalf("Error occurred while analyzing: %s", analyzeErr.Error())
 	}
 
+	// Extract found and requested files
+	output.StoreFiles()
+
 	// Show user analysis
 	analyze.PrintSummary()
+
+	// Print filemanager summary
+	output.PrintSummary()
 
 	// Finalize output
 	output.Finalize()

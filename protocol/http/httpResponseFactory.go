@@ -3,10 +3,12 @@ package http
 import (
 	"bufio"
 	"fmt"
+	"git.darknebu.la/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/tcpassembly"
 	"github.com/google/gopacket/tcpassembly/tcpreader"
 	"io"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -48,8 +50,11 @@ func (h *httpResponseStream) run() {
 			// Ignore, because it may be a request
 		} else {
 			// Try to process assembled request
-			tcpreader.DiscardBytesToEOF(resp.Body)
+			fileBytes, _ := ioutil.ReadAll(resp.Body)
 			resp.Body.Close()
+
+			// Register file in filemanager
+			output.RegisterFile("", fileBytes, "HTTP response")
 
 			// Build summary
 			line := fmt.Sprintf("Response %s, Type %s, Size %d bytes", resp.Status, resp.Header.Get("Content-Type"), resp.ContentLength)

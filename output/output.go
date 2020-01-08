@@ -17,4 +17,10 @@ func Finalize() {
 		// We did - inform user about this
 		printer.Println("Some submodule output was hidden. Add --print-empty-blocks to show it.")
 	}
+
+	// Check if the user didn't use the file extract option, although there were files available to extract
+	if extractedFiles == 0 && len(registeredFiles) > 0 {
+		// User avoided the files
+		printer.Println("Files found in stream. Add --extract-all or --extract-these <list> to extract them.")
+	}
 }
