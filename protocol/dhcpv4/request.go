@@ -13,5 +13,13 @@ func (p *Protocol) processRequestPacket(dhcppacket layers.DHCPv4) {
 
 // Generates the summary of all DHCP request packets
 func (p *Protocol) generateRequestSummary() string {
-	return fmt.Sprintf("%d unique DHCP requests\n%s", len(p.requestMAC), common.GenerateTree(p.requestMAC))
+	reqAmount := len(p.requestMAC)
+
+	// Check if there were requests
+	if reqAmount == 0 {
+		// No, don't print a summary then.
+		return ""
+	}
+
+	return fmt.Sprintf("%d unique DHCP requests\n%s", reqAmount, common.GenerateTree(p.requestMAC))
 }

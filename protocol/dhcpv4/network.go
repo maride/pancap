@@ -24,14 +24,21 @@ var (
 
 // Generates the summary of relevant DHCP options
 func (p *Protocol) generateNetworkSummary() string {
-	// It's also possible to use strings.Builder here, but it produces code which is longer than this solution :shrug:
-	summary := fmt.Sprintf("Subnet Mask: %s\n", formatIP(p.networkSetup[layers.DHCPOptSubnetMask]))
-	summary = fmt.Sprintf("%sBroadcast: %s\n", summary, formatIP(p.networkSetup[layers.DHCPOptBroadcastAddr]))
-	summary = fmt.Sprintf("%sRouter: %s\n", summary, formatIP(p.networkSetup[layers.DHCPOptRouter]))
-	summary = fmt.Sprintf("%sDNS Server: %s\n", summary, formatIP(p.networkSetup[layers.DHCPOptDNS]))
-	summary = fmt.Sprintf("%sNTP Server: %s\n", summary, formatIP(p.networkSetup[layers.DHCPOptNTPServers]))
-	summary = fmt.Sprintf( "%sLease Time: %s\n", summary, formatDate(p.networkSetup[layers.DHCPOptLeaseTime]))
-	summary = fmt.Sprintf("%sRenewal Time: %s\n", summary, formatDate(p.networkSetup[layers.DHCPOptT1]))
+	subnetMask, subnetAvail := formatIP(p.networkSetup[layers.DHCPOptSubnetMask])
+	broadcastAddr, broadcastAvail := formatIP(p.networkSetup[layers.DHCPOptBroadcastAddr])
+	routerAddr, routerAvail := formatIP(p.networkSetup[layers.DHCPOptRouter])
+	dnsAddr, dnsAvail := formatIP(p.networkSetup[layers.DHCPOptDNS])
+	ntpAddr, ntpAvail := formatIP(p.networkSetup[layers.DHCPOptNTPServers])
+	leaseTime, leaseAvail := formatDate(p.networkSetup[layers.DHCPOptLeaseTime])
+	renewalTime, renewalAvail := formatDate(p.networkSetup[layers.DHCPOptT1])
+
+	// Check if there even are any values
+	if !subnetAvail && !broadcastAvail && !routerAvail && !dnsAvail && !ntpAvail && !leaseAvail && !renewalAvail {
+		// No, do not return any summary. This will lead to a collapsed section.
+		return ""
+	}
+
+	summary := fmt.Sprintf("Subnet Mask: %s\nBroadcast: %s\nRouter: %s\nDNS Server: %s\nNTP Server: %s\nLease Time: %s\nRenewal Time: %s", subnetMask, broadcastAddr, routerAddr, dnsAddr, ntpAddr, leaseTime, renewalTime)
 	return summary
 }
 
@@ -92,24 +99,27 @@ func isRelevantOption(opt layers.DHCPOption) bool {
 }
 
 // Formats the given byte array as string representing the IP address, or returns an error (as string)
-func formatIP(rawIP []byte) string {
+// The returned bool value states whether the IP address could be formatted or not (e.g. "not found")
+func formatIP(rawIP []byte) (string, bool) {
 	// Check if we even have an IP
 	if rawIP == nil {
 		// We don't have an IP, construct an error message (as string)
 		error := color.New(color.FgRed)
-		return error.Sprint("(not found)")
+		return error.Sprint("(not found)"), false
 	}
 
 	// Return formatted IP
-	return net.IP(rawIP).String()
+	return net.IP(rawIP).String(), true
 }
 
-func formatDate(rawDate []byte) string {
+// Formats the given byte array as string representing the date, or returns an error (as string)
+// The returned bool value states whether the date could be formatted or not (e.g. "not found")
+func formatDate(rawDate []byte) (string, bool) {
 	// Check if we even have a date
 	if rawDate == nil {
 		// We don't have a date, construct an error message (as string)
 		error := color.New(color.FgRed)
-		return error.Sprint("(not found)")
+		return error.Sprint("(not found)"), false
 	}
 
 	// Actually format date
@@ -149,5 +159,5 @@ func formatDate(rawDate []byte) string {
 		}
 	}
 
-	return formattedDate
+	return formattedDate, true
 }
