@@ -19,6 +19,11 @@ func registerFileFlags() {
 
 // Opens the PCAP, returns its packets and the link type or an error
 func openPCAP() (*gopacket.PacketSource, layers.LinkType, error) {
+	// Check if we even got a file.
+	if *filenameFlag == "" {
+		return nil, 0, fmt.Errorf("missing file to analyze. Please specifiy it with --file")
+	}
+
 	// Open specified file
 	handle, openErr := pcap.OpenOffline(*filenameFlag)
 	if openErr != nil {
