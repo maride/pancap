@@ -23,10 +23,10 @@ func GenerateTree(strarr []string) string {
 	// iterate over each element
 	for iter, elem := range strarr {
 		// check if we got the last element
-		if iter < len(strarr) - 1 {
+		if iter < len(strarr)-1 {
 			tmpstr = fmt.Sprintf("%s├ %s\n", tmpstr, elem)
 		} else {
-			tmpstr = fmt.Sprintf( "%s╰ %s\n", tmpstr, elem)
+			tmpstr = fmt.Sprintf("%s╰ %s\n", tmpstr, elem)
 		}
 	}
 

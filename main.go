@@ -3,11 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/maride/pancap/analyze"
-	"github.com/maride/pancap/output"
 	"log"
 	"math/rand"
 	"time"
+
+	"github.com/maride/pancap/analyze"
+	"github.com/maride/pancap/output"
 )
 
 func main() {

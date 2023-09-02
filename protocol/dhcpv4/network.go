@@ -12,13 +12,13 @@ import (
 
 var (
 	watchedOpts = []layers.DHCPOpt{
-		layers.DHCPOptSubnetMask, // Option 1
-		layers.DHCPOptRouter, // Option 3
-		layers.DHCPOptDNS, // Option 6
+		layers.DHCPOptSubnetMask,    // Option 1
+		layers.DHCPOptRouter,        // Option 3
+		layers.DHCPOptDNS,           // Option 6
 		layers.DHCPOptBroadcastAddr, // Option 28
-		layers.DHCPOptNTPServers, // Option 42
-		layers.DHCPOptLeaseTime, // Option 51
-		layers.DHCPOptT1, // Option 58
+		layers.DHCPOptNTPServers,    // Option 42
+		layers.DHCPOptLeaseTime,     // Option 51
+		layers.DHCPOptT1,            // Option 58
 	}
 )
 
@@ -126,7 +126,7 @@ func formatDate(rawDate []byte) (string, bool) {
 	intDate := binary.LittleEndian.Uint32(rawDate)
 	seconds := intDate % 60
 	minutes := intDate / 60 % 60
-	hours   := intDate / 60 / 60 % 60
+	hours := intDate / 60 / 60 % 60
 	formattedDate := ""
 
 	// Check which words we need to pick

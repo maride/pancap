@@ -1,16 +1,16 @@
 package dhcpv4
 
 import (
-	"github.com/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
+	"github.com/maride/pancap/output"
 )
 
 type Protocol struct {
-	hostnames []hostname
+	hostnames    []hostname
 	networkSetup map[layers.DHCPOpt][]byte
-	requestMAC []string
-	responses []dhcpResponse
+	requestMAC   []string
+	responses    []dhcpResponse
 }
 
 // Checks if the given packet is a DHCP packet we can process

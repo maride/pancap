@@ -1,12 +1,12 @@
 package dns
 
 import (
-	"github.com/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
+	"github.com/maride/pancap/output"
 )
 
-type Protocol struct {}
+type Protocol struct{}
 
 func (p *Protocol) CanAnalyze(packet gopacket.Packet) bool {
 	return packet.Layer(layers.LayerTypeDNS) != nil

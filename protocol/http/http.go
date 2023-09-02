@@ -1,20 +1,20 @@
 package http
 
 import (
-	"github.com/maride/pancap/common"
-	"github.com/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/google/gopacket/tcpassembly"
+	"github.com/maride/pancap/common"
+	"github.com/maride/pancap/output"
 )
 
 type Protocol struct {
-	initialized bool
-	requestFactory *httpRequestFactory
-	responseFactory *httpResponseFactory
-	requestPool *tcpassembly.StreamPool
-	responsePool *tcpassembly.StreamPool
-	requestAssembler *tcpassembly.Assembler
+	initialized       bool
+	requestFactory    *httpRequestFactory
+	responseFactory   *httpResponseFactory
+	requestPool       *tcpassembly.StreamPool
+	responsePool      *tcpassembly.StreamPool
+	requestAssembler  *tcpassembly.Assembler
 	responseAssembler *tcpassembly.Assembler
 }
 

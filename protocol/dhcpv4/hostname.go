@@ -1,8 +1,8 @@
 package dhcpv4
 
 type hostname struct {
-	hostname string
+	hostname       string
 	requestedByMAC string
-	granted bool
+	granted        bool
 	deniedHostname string
 }

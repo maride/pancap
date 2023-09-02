@@ -6,10 +6,10 @@ import (
 )
 
 type File struct {
-	name string
+	name    string
 	content []byte
-	origin string
-	hash string
+	origin  string
+	hash    string
 }
 
 // Creates a new file object and calculates the hash of the given content

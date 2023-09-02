@@ -2,18 +2,18 @@ package dns
 
 import (
 	"fmt"
-	"github.com/maride/pancap/common"
 	"github.com/google/gopacket/layers"
+	"github.com/maride/pancap/common"
 	"golang.org/x/net/publicsuffix"
 	"log"
 )
 
 var (
-	numQuestions int
-	questionDomains []string
-	questionBaseDomains []string
+	numQuestions           int
+	questionDomains        []string
+	questionBaseDomains    []string
 	questionPrivateDomains []string
-	questionType = make(map[layers.DNSType]int)
+	questionType           = make(map[layers.DNSType]int)
 )
 
 // Called on every DNS packet to process questions

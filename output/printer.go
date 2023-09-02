@@ -2,17 +2,18 @@ package output
 
 import (
 	"fmt"
-	"github.com/fatih/color"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 const (
 	MaxContentLines = 50
-	SnipMark = "----- cut at 50 entries -----"
+	SnipMark        = "----- cut at 50 entries -----"
 )
 
 var (
-	DidSnip bool
+	DidSnip            bool
 	DidAvoidEmptyBlock bool
 )
 
@@ -21,7 +22,7 @@ var (
 // If the content is longer than MaxContentLines, content is cut.
 func PrintBlock(headline string, content string) {
 	// Avoid printing empty blocks - at least if user didn't specify it otherwise
-	if len(content) == 0 && !*printEmptyBlocks {
+	if len(content) == 0 && !printEmptyBlocks {
 		// No content and we are not forced to print empty blocks, return
 		DidAvoidEmptyBlock = true
 		return
@@ -38,7 +39,7 @@ func PrintBlock(headline string, content string) {
 	}
 
 	// Cut to MaxContentLines if required
-	if !(*fullOutput) {
+	if !(fullOutput) {
 		// User states that they don't want to see the whole output - cut content.
 		content = cutContent(content)
 	}

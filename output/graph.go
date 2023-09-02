@@ -1,10 +1,9 @@
 package output
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"io/ioutil"
-
-	"crypto/sha256"
 
 	"github.com/google/gopacket"
 )
@@ -40,13 +39,13 @@ func AddPkgToGraph(pkg gopacket.Packet) {
 
 // CreateGraph writes out a Graphviz digraph
 func CreateGraph() {
-	if *graphOutput == "" {
+	if graphOutput == "" {
 		// No graph requested
 		return
 	}
 
 	// Start with the Graphviz-specific header
-	dot := fmt.Sprintf("# Compile with `neato -Tpng %s > %s.png`\n", *graphOutput, *graphOutput)
+	dot := fmt.Sprintf("# Compile with `neato -Tpng %s > %s.png`\n", graphOutput, graphOutput)
 	dot += "digraph pancap {\n\toverlap = false;\n"
 
 	// First, gather all nodes as-is and write them out
@@ -61,7 +60,7 @@ func CreateGraph() {
 	dot += "}\n"
 
 	// Write out
-	ioutil.WriteFile(*graphOutput, []byte(dot), 0644)
+	ioutil.WriteFile(graphOutput, []byte(dot), 0644)
 }
 
 // Creates a list of distinct nodes, Graphviz-compatible

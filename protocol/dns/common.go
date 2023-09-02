@@ -8,7 +8,7 @@ import (
 
 var (
 	privateBlocks = []net.IPNet{
-		{net.IPv4(10, 0, 0, 0), net.IPv4Mask(255, 0, 0, 0)}, 	  // 10.0.0.0/8
+		{net.IPv4(10, 0, 0, 0), net.IPv4Mask(255, 0, 0, 0)},      // 10.0.0.0/8
 		{net.IPv4(172, 16, 0, 0), net.IPv4Mask(255, 240, 0, 0)},  // 172.16.0.0/12
 		{net.IPv4(192, 168, 0, 0), net.IPv4Mask(255, 255, 0, 0)}, // 192.168.0.0/24
 		{net.IPv4(100, 64, 0, 0), net.IPv4Mask(255, 192, 0, 0)},  // 100.64.0.0/10
@@ -58,7 +58,7 @@ func (p *Protocol) generateDNSTypeSummary(typearr map[layers.DNSType]int) string
 		if iter == 0 {
 			// We don't need to append yet
 			answerstr = elem
-		} else if iter == len(answerarr) - 1 {
+		} else if iter == len(answerarr)-1 {
 			// Last element, use "and" instead of a comma
 			answerstr = fmt.Sprintf("%s and %s", answerstr, elem)
 		} else {

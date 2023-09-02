@@ -25,7 +25,7 @@ func Finalize() {
 	}
 
 	// Check if something graph-worthy was collected
-	if *graphOutput == "" && len(graphPkgs) > 0 {
+	if graphOutput == "" && len(graphPkgs) > 0 {
 		// User didn't want a graph
 		printer.Println("To summarize the communcation flow with a Graphviz graph, specify --create-graph <out.dot>.")
 	}

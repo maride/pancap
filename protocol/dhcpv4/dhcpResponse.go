@@ -1,9 +1,8 @@
 package dhcpv4
 
 type dhcpResponse struct {
-	destMACAddr string
-	newIPAddr string
+	destMACAddr   string
+	newIPAddr     string
 	serverMACAddr string
-	askedFor bool
+	askedFor      bool
 }
-

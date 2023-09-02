@@ -3,17 +3,17 @@ package http
 import (
 	"bufio"
 	"fmt"
-	"github.com/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/tcpassembly"
 	"github.com/google/gopacket/tcpassembly/tcpreader"
+	"github.com/maride/pancap/output"
 	"io"
 	"io/ioutil"
 	"net/http"
 )
 
 var (
-	responseSummaryLines   []string
+	responseSummaryLines []string
 )
 
 type httpResponseFactory struct{}

@@ -2,20 +2,20 @@ package dns
 
 import (
 	"fmt"
-	"github.com/maride/pancap/common"
 	"github.com/google/gopacket/layers"
+	"github.com/maride/pancap/common"
 	"golang.org/x/net/publicsuffix"
 	"log"
 )
 
 var (
-	numAnswers int
-	answerDomains []string
-	answerBaseDomains []string
+	numAnswers           int
+	answerDomains        []string
+	answerBaseDomains    []string
 	answerPrivateDomains []string
-	answerType = make(map[layers.DNSType]int)
-	answerPublicIPv4 []string
-	answerPrivateIPv4 []string
+	answerType           = make(map[layers.DNSType]int)
+	answerPublicIPv4     []string
+	answerPrivateIPv4    []string
 )
 
 // Called on every DNS packet to process response(s)

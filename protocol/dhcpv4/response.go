@@ -2,8 +2,8 @@ package dhcpv4
 
 import (
 	"fmt"
-	"github.com/maride/pancap/common"
 	"github.com/google/gopacket/layers"
+	"github.com/maride/pancap/common"
 	"log"
 )
 

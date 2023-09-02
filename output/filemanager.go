@@ -46,12 +46,12 @@ func StoreFiles() {
 	var filesToExtract []File
 
 	// Check different flag scenarios
-	if *targetAllFiles {
+	if targetAllFiles {
 		// We should extract all files.
 		filesToExtract = registeredFiles
 	} else {
 		// We should extract only a given set of files
-		fileList := strings.Split(*targetFiles, ",")
+		fileList := strings.Split(targetFiles, ",")
 		for _, f := range fileList {
 			// Iterate over desired files
 			found := false
@@ -80,7 +80,7 @@ func StoreFiles() {
 
 // Writes the given file object to disk, along with a stats file placed next to it.
 func writeOut(f File) {
-	targetName := fmt.Sprintf("%s%c%s", *targetOutput, os.PathSeparator, f.hash)
+	targetName := fmt.Sprintf("%s%c%s", targetOutput, os.PathSeparator, f.hash)
 	targetDescName := fmt.Sprintf("%s.info", targetName)
 	targetDescription := fmt.Sprintf("Filename: %s\nHash: %s\nOrigin: %s\nSize: %d", f.name, f.hash, f.origin, len(f.content))
 

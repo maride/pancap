@@ -2,15 +2,16 @@ package analyze
 
 import (
 	"fmt"
+	"log"
+
+	"github.com/google/gopacket"
 	"github.com/maride/pancap/output"
 	"github.com/maride/pancap/protocol"
-	"github.com/google/gopacket"
-	"log"
 )
 
 var (
 	// Store total amount and amount of visited packets
-	totalPackets int
+	totalPackets     int
 	processedPackets int
 )
 
@@ -71,4 +72,3 @@ func handleErr(err error) {
 		log.Printf("Encountered error while examining packets, continuing anyway. Error: %s", err.Error())
 	}
 }
-

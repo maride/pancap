@@ -2,24 +2,24 @@ package arp
 
 import (
 	"fmt"
-	"github.com/maride/pancap/common"
-	"github.com/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
+	"github.com/maride/pancap/common"
+	"github.com/maride/pancap/output"
 	"log"
 	"net"
 )
 
 var (
-	arpStatsList []arpStats
-	devices []arpDevice
+	arpStatsList   []arpStats
+	devices        []arpDevice
 	linkLocalBlock = net.IPNet{
 		IP:   net.IPv4(169, 254, 0, 0),
 		Mask: net.IPv4Mask(255, 255, 0, 0),
 	}
 )
 
-type Protocol struct {}
+type Protocol struct{}
 
 // Checks if the given packet is an ARP packet we can process
 func (p *Protocol) CanAnalyze(packet gopacket.Packet) bool {
@@ -118,7 +118,7 @@ func (p *Protocol) getStatOrCreate(macaddr string) *arpStats {
 
 	// None found yet, we need to create a new one
 	arpStatsList = append(arpStatsList, arpStats{
-		macaddr:  macaddr,
+		macaddr: macaddr,
 	})
 
 	// And return it
