@@ -20,12 +20,18 @@ var (
 // This means that a module should _always_ call this function when a file is encountered.
 // origin is a descriptive string where the file comes from, e.g. the module name.
 func RegisterFile(filename string, content []byte, origin string) {
+	// Check if there even is anything to register
+	if len(content) == 0 {
+		// File is empty, won't register the void
+		log.Printf("Avoided registering file from %s because it is empty.", origin)
+		return
+	}
 	thisFile := NewFile(filename, content, origin)
 	// To avoid doubles, we need to check if that hash is already present
 	for _, f := range registeredFiles {
 		if f.hash == thisFile.hash {
 			// Found - stop here
-			log.Printf("Avoided registering file '%s' because it has the same content as an already registered file ", f.name)
+			log.Printf("Avoided registering file from %s because it has the same content as an already registered file ", origin)
 			return
 		}
 	}
