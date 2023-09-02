@@ -36,6 +36,9 @@ func main() {
 	// Extract found and requested files
 	output.StoreFiles()
 
+	// Create communication graph
+	output.CreateGraph()
+
 	// Show user analysis
 	analyze.PrintSummary()
 

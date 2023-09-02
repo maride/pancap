@@ -39,6 +39,9 @@ func Analyze(source *gopacket.PacketSource) error {
 			}
 		}
 
+		// Register communication for graph
+		output.AddPkgToGraph(packet)
+
 		// Raise statistics
 		totalPackets += 1
 		if processed {

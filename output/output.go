@@ -23,4 +23,10 @@ func Finalize() {
 		// User avoided the files
 		printer.Println("Files found in stream. Add --extract-all or --extract-these <list> to extract them.")
 	}
+
+	// Check if something graph-worthy was collected
+	if *graphOutput == "" && len(graphPkgs) > 0 {
+		// User didn't want a graph
+		printer.Println("To summarize the communcation flow with a Graphviz graph, specify --create-graph <out.dot>.")
+	}
 }
