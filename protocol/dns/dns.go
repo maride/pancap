@@ -1,7 +1,7 @@
 package dns
 
 import (
-	"git.darknebu.la/maride/pancap/output"
+	"github.com/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 )

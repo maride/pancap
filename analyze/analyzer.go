@@ -2,8 +2,8 @@ package analyze
 
 import (
 	"fmt"
-	"git.darknebu.la/maride/pancap/output"
-	"git.darknebu.la/maride/pancap/protocol"
+	"github.com/maride/pancap/output"
+	"github.com/maride/pancap/protocol"
 	"github.com/google/gopacket"
 	"log"
 )

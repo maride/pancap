@@ -12,7 +12,7 @@ If you get access to a [PCAP](https://en.wikipedia.org/wiki/Pcap) file, for exam
 
 Simply run
 
-`go get git.darknebu.la/maride/pancap`
+`go get github.com/maride/pancap`
 
 This will also build `pancap` and place it into your `GOBIN` directory - means you can directly execute it!
 

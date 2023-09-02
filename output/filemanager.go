@@ -2,7 +2,7 @@ package output
 
 import (
 	"fmt"
-	"git.darknebu.la/maride/pancap/common"
+	"github.com/maride/pancap/common"
 	"io/ioutil"
 	"log"
 	"os"

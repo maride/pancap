@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"git.darknebu.la/maride/pancap/analyze"
-	"git.darknebu.la/maride/pancap/output"
+	"github.com/maride/pancap/analyze"
+	"github.com/maride/pancap/output"
 	"log"
 	"math/rand"
 	"time"
@@ -53,7 +53,7 @@ func printMOTD() {
 		"PanCAP: Analyzer for pancake files",
 		"You want some syrup with these packets?",
 		"Check out CONTRIBUTORS.md!",
-		"Push your commits to git.darknebu.la/maride/pancap",
+		"Push your commits to github.com/maride/pancap",
 		"Don't let the white noise traffic confuse you.",
 		"Grab a Club Mate if you don't have one yet.",
 		"In Soviet Russia, traffic analyzes you.",

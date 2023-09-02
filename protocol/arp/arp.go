@@ -2,8 +2,8 @@ package arp
 
 import (
 	"fmt"
-	"git.darknebu.la/maride/pancap/common"
-	"git.darknebu.la/maride/pancap/output"
+	"github.com/maride/pancap/common"
+	"github.com/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"log"

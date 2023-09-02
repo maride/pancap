@@ -2,7 +2,7 @@ package dns
 
 import (
 	"fmt"
-	"git.darknebu.la/maride/pancap/common"
+	"github.com/maride/pancap/common"
 	"github.com/google/gopacket/layers"
 	"golang.org/x/net/publicsuffix"
 	"log"

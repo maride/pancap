@@ -1,4 +1,4 @@
-module git.darknebu.la/maride/pancap
+module github.com/maride/pancap
 
 go 1.13
 

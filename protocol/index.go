@@ -1,10 +1,10 @@
 package protocol
 
 import (
-	"git.darknebu.la/maride/pancap/protocol/arp"
-	"git.darknebu.la/maride/pancap/protocol/dhcpv4"
-	"git.darknebu.la/maride/pancap/protocol/dns"
-	"git.darknebu.la/maride/pancap/protocol/http"
+	"github.com/maride/pancap/protocol/arp"
+	"github.com/maride/pancap/protocol/dhcpv4"
+	"github.com/maride/pancap/protocol/dns"
+	"github.com/maride/pancap/protocol/http"
 )
 
 var (

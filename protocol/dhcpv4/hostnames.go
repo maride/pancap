@@ -2,7 +2,7 @@ package dhcpv4
 
 import (
 	"fmt"
-	"git.darknebu.la/maride/pancap/common"
+	"github.com/maride/pancap/common"
 	"github.com/google/gopacket/layers"
 	"log"
 )

@@ -3,7 +3,7 @@ package http
 import (
 	"bufio"
 	"fmt"
-	"git.darknebu.la/maride/pancap/output"
+	"github.com/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/tcpassembly"
 	"github.com/google/gopacket/tcpassembly/tcpreader"

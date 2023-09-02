@@ -1,8 +1,8 @@
 package http
 
 import (
-	"git.darknebu.la/maride/pancap/common"
-	"git.darknebu.la/maride/pancap/output"
+	"github.com/maride/pancap/common"
+	"github.com/maride/pancap/output"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/google/gopacket/tcpassembly"
