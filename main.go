@@ -59,7 +59,7 @@ func printMOTD() {
 		"In Soviet Russia, traffic analyzes you.",
 		"Who captures the captors?",
 		"Respect other's privacy. Always.",
-		"Make public data available, protect private data.", // https://www.ccc.de/en/hackerethik
+		"Make public data available, protect private data.",   // https://www.ccc.de/en/hackerethik
 		"Most traffic is just there to confuse the russians.", // hat-tip to twitter.com/_harryr_
 	}
 

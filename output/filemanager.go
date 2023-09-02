@@ -2,17 +2,18 @@ package output
 
 import (
 	"fmt"
-	"github.com/maride/pancap/common"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/maride/pancap/common"
 )
 
 var (
 	registeredFiles []File
-	notFound []string
-	extractedFiles int
+	notFound        []string
+	extractedFiles  int
 )
 
 // Registers a file with the given name and content.
