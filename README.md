@@ -1,5 +1,7 @@
 # pancap
 
+<img alt="pancap logo" src="pancap.png" width="250px" height="250px">
+
 ## Idea
 
 If you get access to a [PCAP](https://en.wikipedia.org/wiki/Pcap) file, for example during a CTF or captured on your own, you usually have the problem of overlooking all the relevant information to get a basic idea of the capture file. This gets worse if the capture file includes lots of white noise or irrelevant traffic - often included in the capture file to cloak *interesting* packets in a bunch of packets to YouTube, Reddit, Twitter and others.
