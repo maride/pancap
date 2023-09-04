@@ -1,6 +1,6 @@
-# pancap
-
 <img alt="pancap logo" src="pancap.png" width="250px" height="250px">
+
+# pancap
 
 ## Idea
 
@@ -8,23 +8,27 @@ If you get access to a [PCAP](https://en.wikipedia.org/wiki/Pcap) file, for exam
 
 *pancap* addresses this problem. With multiple submodules, it analyzes the given PCAP file and extracts useful information out of it. In many cases, this saves you a lot of time and can point you into the right direction.
 
+## Features
+
+- Support for different network protocols
+	- ARP: collect communication, identify switches and routers, detect [ARP spoofing](https://www.crowdstrike.com/cybersecurity-101/spoofing-attacks/arp-spoofing/).
+	- DHCP: analyze requests and responses, get an idea of the network setup
+	- DNS: collect hints of user actions and their OS
+	- HTTP: dump cleartext communication and embedded files
+- Create [GraphViz](https://graphviz.org/) graphs out of network communication flow
+
 ## Usage
 
 Simply run
 
-`go get github.com/maride/pancap`
+`go install github.com/maride/pancap@latest`
 
-This will also build `pancap` and place it into your `GOBIN` directory - means you can directly execute it!
+This will build `pancap` and place it into your `GOBIN` directory - means you can directly execute it!
+It might be required to install the `pcap` header files, e.g. for Ubuntu with `apt install libpcap-dev`.
 
 In any use case, you need to specify the file you want to analyze, simply handed over to pancap with the `-file` flag.
 
-Example usage:
-
 `pancap -file ~/Schreibtisch/mitschnitt.pcapng`
-
-This will give you a result similar to this:
-
-[![asciicast](https://asciinema.org/a/x19gUpdnQoeUx498mPS0Grw6B.svg)](https://asciinema.org/a/x19gUpdnQoeUx498mPS0Grw6B)
 
 ## Benchmarks
 
